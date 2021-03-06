@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -26,14 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.matiaslev.mercadolibrepoc.data.ItemsRepository
 import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
 
 @ExperimentalAnimationApi
 @Composable
-fun Home(navController: NavController) {
+fun Home(navController: NavController, model: MainViewModel) {
     Scaffold(
         topBar = { HomeTopBar { navController.navigate("details") } },
-        content = { HomeContent() }
+        content = { HomeContent(model) }
     )
 }
 
@@ -72,8 +75,12 @@ fun HomeTopBar(action: () -> Unit) {
 }
 
 @Composable
-fun HomeContent() {
-    Text("List of Items from the Search")
+fun HomeContent(model: MainViewModel) {
+    LazyColumn {
+        items(model.searchItems("sarasa")) {
+            Text(text = it)
+        }
+    }
 }
 
 @Composable
@@ -94,8 +101,10 @@ fun topBarTextFieldLabel() {
 @Composable
 fun LightPreview() {
     val navController = rememberNavController()
+    val model = MainViewModel(ItemsRepository())
+
     MercadoLibrePocTheme {
-        Home(navController)
+        Home(navController, model)
     }
 }
 
@@ -104,8 +113,9 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     val navController = rememberNavController()
+    val model = MainViewModel(ItemsRepository())
 
     MercadoLibrePocTheme(darkTheme = true) {
-        Home(navController)
+        Home(navController, model)
     }
 }

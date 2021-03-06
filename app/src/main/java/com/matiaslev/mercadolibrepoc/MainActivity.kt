@@ -2,6 +2,7 @@ package com.matiaslev.mercadolibrepoc
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -18,8 +19,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val model: MainViewModel by viewModels()
+
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         NavHost(navController, startDestination = "home") {
             composable("home") {
-                Home(navController)
+                Home(navController, model)
             }
             composable("details") {
                 Search(navController)
