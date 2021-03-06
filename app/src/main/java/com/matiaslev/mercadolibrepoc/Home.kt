@@ -45,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.matiaslev.mercadolibrepoc.data.ItemsRepository
 import com.matiaslev.mercadolibrepoc.domain.CardItem
 import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
+import dev.chrisbanes.accompanist.coil.CoilImage
 
 @ExperimentalAnimationApi
 @Composable
@@ -183,7 +184,17 @@ fun ErrorView() {
 
 @Composable
 fun CardItem(item: CardItem) {
-    Text(text = item.title)
+    Row {
+        CoilImage(
+            data = "https://picsum.photos/300/300",
+            contentDescription = item.title
+        )
+
+        Column {
+            Text(text = item.title)
+            Text(text = item.title)
+        }
+    }
 }
 
 /*@ExperimentalAnimationApi
