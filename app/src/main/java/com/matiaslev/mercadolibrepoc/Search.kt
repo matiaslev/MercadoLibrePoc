@@ -32,15 +32,15 @@ import androidx.navigation.compose.rememberNavController
 import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
 
 @Composable
-fun Search(navController: NavController) {
+fun Search(navController: NavController, model: MainViewModel) {
     Scaffold(
-        topBar = { SearchTopBar { navController.popBackStack() } },
+        topBar = { SearchTopBar(model) { navController.popBackStack() } },
         content = { SearchContent { navController.popBackStack() } }
     )
 }
 
 @Composable
-fun SearchTopBar(action: () -> Unit) {
+fun SearchTopBar(model: MainViewModel, action: () -> Unit) {
     var input by mutableStateOf("")
 
     TopAppBar(backgroundColor = Color.White) {
@@ -67,6 +67,7 @@ fun SearchTopBar(action: () -> Unit) {
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
                     onSearch = {
+                        model.searchItems(input)
                         action()
                     }
                 ),
@@ -87,6 +88,7 @@ fun SearchContent(action: () -> Unit) {
     ) {
         items(randomList) {
             Row(modifier = Modifier
+                .padding(10.dp)
                 .clickable { action() }) {
                 Icon(
                     modifier = Modifier
@@ -101,7 +103,7 @@ fun SearchContent(action: () -> Unit) {
     }
 }
 
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
+/*@Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun SearchLightPreview() {
     val navController = rememberNavController()
@@ -118,4 +120,4 @@ fun SearchDarkPreview() {
     MercadoLibrePocTheme(darkTheme = true) {
         Search(navController)
     }
-}
+}*/

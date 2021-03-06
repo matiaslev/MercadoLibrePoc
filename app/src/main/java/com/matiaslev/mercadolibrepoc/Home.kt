@@ -17,6 +17,8 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,9 +78,27 @@ fun HomeTopBar(action: () -> Unit) {
 
 @Composable
 fun HomeContent(model: MainViewModel) {
-    LazyColumn {
-        items(model.searchItems("sarasa")) {
-            Text(text = it)
+    val data by model.itemsState
+
+    when (data) {
+        ItemsRepository.ApiResponse.Loading -> {
+
+        }
+
+        is ItemsRepository.ApiResponse.Success -> {
+            LazyColumn {
+                items((data as ItemsRepository.ApiResponse.Success).items) {
+                    Text(text = it.title)
+                }
+            }
+        }
+
+        is ItemsRepository.ApiResponse.Error -> {
+
+        }
+
+        ItemsRepository.ApiResponse.NotInitialized -> {
+
         }
     }
 }
@@ -96,7 +116,7 @@ fun topBarTextFieldLabel() {
     }
 }
 
-@ExperimentalAnimationApi
+/*@ExperimentalAnimationApi
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
@@ -118,4 +138,4 @@ fun DarkPreview() {
     MercadoLibrePocTheme(darkTheme = true) {
         Home(navController, model)
     }
-}
+}*/

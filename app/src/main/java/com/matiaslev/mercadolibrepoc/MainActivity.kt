@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 Home(navController, model)
             }
             composable("details") {
-                Search(navController)
+                Search(navController, model)
             }
         }
     }
