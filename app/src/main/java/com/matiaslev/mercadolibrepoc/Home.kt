@@ -2,15 +2,25 @@ package com.matiaslev.mercadolibrepoc
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -25,12 +35,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.matiaslev.mercadolibrepoc.data.ItemsRepository
+import com.matiaslev.mercadolibrepoc.domain.CardItem
 import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
 
 @ExperimentalAnimationApi
@@ -60,7 +73,7 @@ fun HomeTopBar(action: () -> Unit) {
                     .padding(8.dp)
                     .clip(CircleShape),
                 value = "",
-                label = { topBarTextFieldLabel() },
+                label = { TopBarTextFieldLabel() },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     focusedLabelColor = Color.Gray
@@ -77,34 +90,7 @@ fun HomeTopBar(action: () -> Unit) {
 }
 
 @Composable
-fun HomeContent(model: MainViewModel) {
-    val data by model.itemsState
-
-    when (data) {
-        ItemsRepository.ApiResponse.Loading -> {
-
-        }
-
-        is ItemsRepository.ApiResponse.Success -> {
-            LazyColumn {
-                items((data as ItemsRepository.ApiResponse.Success).items) {
-                    Text(text = it.title)
-                }
-            }
-        }
-
-        is ItemsRepository.ApiResponse.Error -> {
-
-        }
-
-        ItemsRepository.ApiResponse.NotInitialized -> {
-
-        }
-    }
-}
-
-@Composable
-fun topBarTextFieldLabel() {
+fun TopBarTextFieldLabel() {
     Row {
         Image(
             modifier = Modifier.padding(end = 5.dp),
@@ -114,6 +100,90 @@ fun topBarTextFieldLabel() {
         )
         Text(text = "Buscar en Mercado Libre")
     }
+}
+
+@Composable
+fun HomeContent(model: MainViewModel) {
+    val data by model.itemsState
+
+    when (data) {
+        ItemsRepository.ApiResponse.Loading -> {
+            LoadingView()
+        }
+
+        is ItemsRepository.ApiResponse.Success -> {
+            LazyColumn {
+                items((data as ItemsRepository.ApiResponse.Success).items) {
+                    CardItem(it)
+                }
+            }
+        }
+
+        is ItemsRepository.ApiResponse.Error -> {
+            ErrorView()
+        }
+
+        ItemsRepository.ApiResponse.NotInitialized -> {
+
+        }
+    }
+}
+
+@Composable
+fun LoadingView() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            backgroundColor = Color.LightGray
+        )
+    }
+}
+
+@Composable
+fun ErrorView() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(80.dp),
+            painter = painterResource(id = R.drawable.ic_wifi_off),
+            contentDescription = "Error"
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "¡Parece que no hay internet!",
+            color = Color.DarkGray,
+            textAlign = TextAlign.Center,
+            style = typography.h6.copy(fontWeight = FontWeight.Bold)
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "Revisa tu conexión para seguir\nnavegando.",
+            color = Color.LightGray,
+            textAlign = TextAlign.Center,
+            style = typography.h6
+        )
+    }
+}
+
+@Composable
+fun CardItem(item: CardItem) {
+    Text(text = item.title)
 }
 
 /*@ExperimentalAnimationApi
