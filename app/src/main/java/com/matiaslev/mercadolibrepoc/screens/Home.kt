@@ -1,4 +1,4 @@
-package com.matiaslev.mercadolibrepoc
+package com.matiaslev.mercadolibrepoc.screens
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
+import com.matiaslev.mercadolibrepoc.MainViewModel
+import com.matiaslev.mercadolibrepoc.R
 import com.matiaslev.mercadolibrepoc.data.ItemsRepository
 import com.matiaslev.mercadolibrepoc.domain.CardItem
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -61,19 +63,6 @@ fun HomeTopBar(action: () -> Unit) {
                 painter = painterResource(id = R.drawable.ic_menu),
                 contentDescription = "menu"
             )
-
-            /*TextField(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clip(CircleShape),
-                value = "",
-                label = { TopBarTextFieldLabel() },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White,
-                    focusedLabelColor = Color.Gray
-                ),
-                onValueChange = { action() }
-            )*/
 
             TopBarTextField(action)
 
@@ -213,27 +202,3 @@ fun CardItem(navController: NavController, item: CardItem) {
         }
     }
 }
-
-/*@ExperimentalAnimationApi
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun LightPreview() {
-    val navController = rememberNavController()
-    val model = MainViewModel(ItemsRepository())
-
-    MercadoLibrePocTheme {
-        Home(navController, model)
-    }
-}
-
-@ExperimentalAnimationApi
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun DarkPreview() {
-    val navController = rememberNavController()
-    val model = MainViewModel(ItemsRepository())
-
-    MercadoLibrePocTheme(darkTheme = true) {
-        Home(navController, model)
-    }
-}*/

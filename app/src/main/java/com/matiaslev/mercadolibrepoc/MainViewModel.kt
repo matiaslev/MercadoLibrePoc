@@ -1,5 +1,6 @@
 package com.matiaslev.mercadolibrepoc
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,10 +18,15 @@ class MainViewModel @Inject constructor(
 
     val itemsState = mutableStateOf<ItemsRepository.ApiResponse>(ItemsRepository.ApiResponse.NotInitialized)
 
+    private val lastSearchs = mutableSetOf<String>()
+
     fun searchItems(query: String) = viewModelScope.launch {
+        lastSearchs.add(query)
         itemsRepository.searchItems(query).collect {
             itemsState.value = it
         }
     }
+
+    fun getLastSearchs() = lastSearchs.toList().reversed()
 
 }

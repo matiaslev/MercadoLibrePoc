@@ -1,4 +1,4 @@
-package com.matiaslev.mercadolibrepoc
+package com.matiaslev.mercadolibrepoc.screens
 
 import android.webkit.WebView
 import androidx.compose.runtime.Composable

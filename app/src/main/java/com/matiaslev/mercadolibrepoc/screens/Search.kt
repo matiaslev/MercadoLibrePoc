@@ -1,4 +1,4 @@
-package com.matiaslev.mercadolibrepoc
+package com.matiaslev.mercadolibrepoc.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,23 +19,23 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
+import com.matiaslev.mercadolibrepoc.MainViewModel
+import com.matiaslev.mercadolibrepoc.R
 
 @Composable
 fun Search(navController: NavController, model: MainViewModel) {
     Scaffold(
         topBar = { SearchTopBar(model) { navController.popBackStack() } },
-        content = { SearchContent { navController.popBackStack() } }
+        content = { SearchContent(model) { navController.popBackStack() } }
     )
 }
 
@@ -78,8 +78,8 @@ fun SearchTopBar(model: MainViewModel, action: () -> Unit) {
 }
 
 @Composable
-fun SearchContent(action: () -> Unit) {
-    val randomList = listOf("Heladeras", "Bicicletas", "Microondas", "Macbook Pro")
+fun SearchContent(model: MainViewModel, action: () -> Unit) {
+    val randomList = remember { model.getLastSearchs() }
 
     LazyColumn(
         modifier = Modifier
@@ -89,7 +89,10 @@ fun SearchContent(action: () -> Unit) {
         items(randomList) {
             Row(modifier = Modifier
                 .padding(10.dp)
-                .clickable { action() }) {
+                .clickable {
+                    model.searchItems(it)
+                    action()
+                }) {
                 Icon(
                     modifier = Modifier
                         .padding(end = 10.dp),
@@ -102,22 +105,3 @@ fun SearchContent(action: () -> Unit) {
         }
     }
 }
-
-/*@Preview("Light Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun SearchLightPreview() {
-    val navController = rememberNavController()
-    MercadoLibrePocTheme {
-        Search(navController)
-    }
-}
-
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun SearchDarkPreview() {
-    val navController = rememberNavController()
-
-    MercadoLibrePocTheme(darkTheme = true) {
-        Search(navController)
-    }
-}*/
