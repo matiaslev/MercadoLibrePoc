@@ -1,4 +1,4 @@
-package com.matiaslev.mercadolibrepoc.Utils
+package com.matiaslev.mercadolibrepoc.utils
 
 object Printer {
     const val TAG = "Printer"
