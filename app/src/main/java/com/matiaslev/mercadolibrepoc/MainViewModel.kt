@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 
     val itemsState = mutableStateOf<ItemsRepository.ApiResponse>(ItemsRepository.ApiResponse.NotInitialized)
 
-    private val lastSearchs = mutableSetOf<String>()
+    private val lastSearchs = mutableSetOf("MacBook Pro", "Heladeras")
 
     fun searchItems(query: String) = viewModelScope.launch {
         lastSearchs.add(query)

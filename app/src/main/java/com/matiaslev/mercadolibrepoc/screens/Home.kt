@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -179,6 +180,8 @@ fun CardItem(navController: NavController, item: CardItem) {
         modifier = Modifier.clickable { navController.navigate("details") }
     ) {
         CoilImage(
+            modifier = Modifier
+                .weight(2f),
             data = "https://picsum.photos/300/300",
             contentDescription = item.title,
             loading = {
@@ -196,9 +199,30 @@ fun CardItem(navController: NavController, item: CardItem) {
             }
         )
 
-        Column {
-            Text(text = item.title)
-            Text(text = item.title)
+        Column(
+            modifier = Modifier
+                .weight(3f)
+                .padding(10.dp)
+        ) {
+            Text(
+                text = item.title,
+                fontFamily = FontFamily.SansSerif
+            )
+            Text(
+                modifier = Modifier
+                    .padding(top = 5.dp),
+                text = "\$ ${item.price}",
+                style = typography.h6.copy(fontWeight = FontWeight.Bold),
+                fontFamily = FontFamily.SansSerif
+            )
         }
+
+        Text(
+            modifier = Modifier
+                .weight(0.6f)
+                .padding(10.dp)
+                .size(80.dp),
+            text = "♡"
+        )
     }
 }
