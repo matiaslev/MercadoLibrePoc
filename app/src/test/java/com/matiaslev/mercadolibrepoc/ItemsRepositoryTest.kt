@@ -7,6 +7,7 @@ import com.matiaslev.mercadolibrepoc.data.ItemsResponse
 import com.matiaslev.mercadolibrepoc.data.ItemsService
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -67,6 +68,27 @@ class ItemsRepositoryTest : BaseTest() {
             assert(expectItem() is ItemsRepository.ApiResponse.Error)
             expectComplete()
         }
+    }
+
+    @Test
+    fun `thumbnail should use https`() = runBlockingTest {
+        // arrange
+        coEvery { itemsService.searchItems(query) } returns ItemsResponse(
+            listOf(
+                Item(
+                    title = empty_string,
+                    thumbnail = "http://http2.mlstatic.com/D_998659-MLA32557339242_102019-I.jpg",
+                    price = empty_string
+                )
+            )
+        )
+
+        // act
+        val lastEvent = itemsRepository.searchItems(query).toList().last()
+
+        // assert
+        assert(lastEvent is ItemsRepository.ApiResponse.Success)
+        assert((lastEvent as ItemsRepository.ApiResponse.Success).items.first().thumbnail.contains("https"))
     }
 
 }

@@ -1,9 +1,6 @@
 package com.matiaslev.mercadolibrepoc.screens
 
-import android.os.Build
-import android.webkit.WebView
 import android.widget.RatingBar
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,10 +11,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -36,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -76,7 +72,7 @@ fun HomeTopBar(action: () -> Unit) {
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_shopping_cart),
-                contentDescription = "menu"
+                contentDescription = "shop"
             )
         }
     }
@@ -189,7 +185,7 @@ fun CardItem(navController: NavController, item: CardItem) {
         CoilImage(
             modifier = Modifier
                 .weight(2f),
-            data = "https://picsum.photos/300/300",
+            data = item.thumbnail,
             contentDescription = item.title,
             loading = {
                 Box(Modifier.matchParentSize()) {

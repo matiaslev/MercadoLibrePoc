@@ -20,7 +20,7 @@ class ItemsRepository @Inject constructor(
         val items = itemsService.searchItems(query).results.map {
             CardItem(
                 title = it.title,
-                thumbnail = it.thumbnail,
+                thumbnail = it.thumbnail.replace("http://", "https://"),
                 price = it.price
             )
         }
