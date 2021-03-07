@@ -22,8 +22,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -64,7 +62,7 @@ fun HomeTopBar(action: () -> Unit) {
                 contentDescription = "menu"
             )
 
-            TextField(
+            /*TextField(
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(CircleShape),
@@ -75,7 +73,9 @@ fun HomeTopBar(action: () -> Unit) {
                     focusedLabelColor = Color.Gray
                 ),
                 onValueChange = { action() }
-            )
+            )*/
+
+            TopBarTextField(action)
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_shopping_cart),
@@ -86,8 +86,15 @@ fun HomeTopBar(action: () -> Unit) {
 }
 
 @Composable
-fun TopBarTextFieldLabel() {
-    Row {
+fun TopBarTextField(action: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(Color.White)
+            .fillMaxWidth(0.9f)
+            .padding(5.dp)
+            .clickable { action() }
+    ) {
         Image(
             modifier = Modifier.padding(end = 5.dp),
             painter = painterResource(id = R.drawable.ic_search),
