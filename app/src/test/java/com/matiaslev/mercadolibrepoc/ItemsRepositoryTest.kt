@@ -34,7 +34,7 @@ class ItemsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `searchItems Success`() = runBlocking {
+    fun `searchItems Success`() = runBlockingTest {
         // arrange
         coEvery { itemsService.searchItems(query) } returns ItemsResponse(
             listOf(
@@ -54,7 +54,7 @@ class ItemsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `searchItems Error`() = runBlocking {
+    fun `searchItems Error`() = runBlockingTest {
         // arrange
         coEvery { itemsService.searchItems(query) } throws Exception(empty_string)
 

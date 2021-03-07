@@ -1,8 +1,6 @@
 package com.matiaslev.mercadolibrepoc
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.matiaslev.mercadolibrepoc.data.ItemsRepository
