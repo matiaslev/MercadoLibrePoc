@@ -19,7 +19,8 @@ class ItemsRepository @Inject constructor(
         Log.d(Printer.TAG,"Fetching Items")
         val items = itemsService.searchItems(query).results.map {
             CardItem(
-                title = it.title
+                title = it.title,
+                thumbnail = it.thumbnail
             )
         }
 

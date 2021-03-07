@@ -50,8 +50,11 @@ class MainActivity : AppCompatActivity() {
             composable("home") {
                 Home(navController, model)
             }
-            composable("details") {
+            composable("search") {
                 Search(navController, model)
+            }
+            composable("details") {
+                Details("https://articulo.mercadolibre.com.ar/MLA-903179538-apple-macbook-pro-133-2020-touch-bar-intel-core-i5-512gb-_JM")
             }
         }
     }

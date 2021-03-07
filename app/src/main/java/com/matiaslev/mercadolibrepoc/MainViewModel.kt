@@ -15,9 +15,6 @@ class MainViewModel @Inject constructor(
     private val itemsRepository: ItemsRepository
 ) : ViewModel() {
 
-    /*private val _itemsLiveData = MutableLiveData<ItemsRepository.ApiResponse>()
-    val itemsLiveData = MutableLiveData<ItemsRepository.ApiResponse>() */
-
     val itemsState = mutableStateOf<ItemsRepository.ApiResponse>(ItemsRepository.ApiResponse.NotInitialized)
 
     fun searchItems(query: String) = viewModelScope.launch {

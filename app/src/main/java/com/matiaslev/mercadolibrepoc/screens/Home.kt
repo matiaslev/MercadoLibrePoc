@@ -5,14 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -28,7 +27,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,22 +35,19 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
-import androidx.navigation.compose.rememberNavController
 import com.matiaslev.mercadolibrepoc.data.ItemsRepository
 import com.matiaslev.mercadolibrepoc.domain.CardItem
-import com.matiaslev.mercadolibrepoc.ui.theme.MercadoLibrePocTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @ExperimentalAnimationApi
 @Composable
 fun Home(navController: NavController, model: MainViewModel) {
     Scaffold(
-        topBar = { HomeTopBar { navController.navigate("details") } },
-        content = { HomeContent(model) }
+        topBar = { HomeTopBar { navController.navigate("search") } },
+        content = { HomeContent(navController, model) }
     )
 }
 
@@ -104,7 +99,7 @@ fun TopBarTextFieldLabel() {
 }
 
 @Composable
-fun HomeContent(model: MainViewModel) {
+fun HomeContent(navController: NavController, model: MainViewModel) {
     val data by model.itemsState
 
     when (data) {
@@ -115,7 +110,7 @@ fun HomeContent(model: MainViewModel) {
         is ItemsRepository.ApiResponse.Success -> {
             LazyColumn {
                 items((data as ItemsRepository.ApiResponse.Success).items) {
-                    CardItem(it)
+                    CardItem(navController, it)
                 }
             }
         }
@@ -183,11 +178,26 @@ fun ErrorView() {
 }
 
 @Composable
-fun CardItem(item: CardItem) {
-    Row {
+fun CardItem(navController: NavController, item: CardItem) {
+    Row(
+        modifier = Modifier.clickable { navController.navigate("details") }
+    ) {
         CoilImage(
             data = "https://picsum.photos/300/300",
-            contentDescription = item.title
+            contentDescription = item.title,
+            loading = {
+                Box(Modifier.matchParentSize()) {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+            },
+            error = {
+                Icon(
+                    modifier = Modifier
+                        .size(80.dp),
+                    painter = painterResource(id = R.drawable.ic_wifi_off),
+                    contentDescription = "Error"
+                )
+            }
         )
 
         Column {

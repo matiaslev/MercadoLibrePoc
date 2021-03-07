@@ -7,5 +7,6 @@ data class ItemsResponse(
 )
 
 data class Item(
-    val title: String
+    @SerializedName("title") val title: String,
+    @SerializedName("thumbnail") val thumbnail: String
 )
