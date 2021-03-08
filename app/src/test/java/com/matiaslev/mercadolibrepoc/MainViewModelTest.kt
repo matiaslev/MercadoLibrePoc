@@ -24,7 +24,7 @@ class MainViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `searchItems success`() = runBlockingTest{
+    fun `searchItems success`() = runBlockingTest {
         // arrange
         coEvery { itemsRepository.searchItems(query) } returns flow {
 

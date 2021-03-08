@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -137,6 +138,7 @@ fun LoadingView() {
     ) {
         LinearProgressIndicator(
             modifier = Modifier
+                .testTag("loading")
                 .fillMaxWidth()
                 .padding(20.dp),
             backgroundColor = Color.LightGray
@@ -180,25 +182,26 @@ fun ErrorView() {
 @Composable
 fun CardItem(navController: NavController, item: CardItem) {
     Row(
-        modifier = Modifier.clickable { navController.navigate("details") }
+        modifier = Modifier
+            .testTag("CardItem")
+            .background(Color.White)
+            .clickable { navController.navigate("details") }
     ) {
         CoilImage(
             modifier = Modifier
-                .weight(2f),
+                .weight(2f)
+                .fillMaxSize()
+                .background(Color.LightGray),
             data = item.thumbnail,
             contentDescription = item.title,
-            loading = {
-                Box(Modifier.matchParentSize()) {
-                    CircularProgressIndicator(Modifier.align(Alignment.Center))
-                }
-            },
+            contentScale = ContentScale.Crop,
             error = {
-                Icon(
-                    modifier = Modifier
-                        .size(80.dp),
-                    painter = painterResource(id = R.drawable.ic_wifi_off),
-                    contentDescription = "Error"
-                )
+                Box(Modifier
+                    .fillMaxSize()
+                    .background(Color.LightGray)
+                ) {
+
+                }
             }
         )
 
@@ -228,7 +231,8 @@ fun CardItem(navController: NavController, item: CardItem) {
                 .weight(0.6f)
                 .padding(10.dp)
                 .size(80.dp),
-            text = "♡"
+            text = "♡",
+            color = Color.Blue
         )
     }
 }
