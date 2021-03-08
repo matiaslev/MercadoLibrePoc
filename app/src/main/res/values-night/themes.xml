@@ -15,5 +15,6 @@
         <item name="android:navigationBarColor" tools:targetApi="o">?colorSurface</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">@bool/lightNavEnabled</item>
         <!-- Customize your theme here. -->
+        <item name="android:ratingBarStyle">?android:attr/ratingBarStyleSmall</item>
     </style>
 </resources>
