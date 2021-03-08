@@ -1,5 +1,9 @@
 ## Modern Android Development | Mercado Libre Challenge
 
+#### Current IDE in use | Android Studio Canary
+
+<img width="649" alt="IDE" src="https://user-images.githubusercontent.com/39838885/110265607-b7c89880-7f9a-11eb-88e5-75a6ad6df0ae.png">
+
 #### Home
 
 ![Home](https://user-images.githubusercontent.com/39838885/110264855-0117e880-7f99-11eb-92da-b0c4d1c490cb.png)
