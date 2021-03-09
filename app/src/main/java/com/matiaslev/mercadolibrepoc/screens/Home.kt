@@ -1,7 +1,9 @@
 package com.matiaslev.mercadolibrepoc.screens
 
+import android.content.res.Configuration
 import android.widget.RatingBar
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -12,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +24,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -242,24 +247,38 @@ fun CardItem(navController: NavController, item: CardItem) {
             .background(Color.White)
             .clickable { navController.navigate("details") }
     ) {
-        CoilImage(
-            modifier = Modifier
-                .weight(2f)
-                .fillMaxSize()
-                .background(Color.LightGray),
-            data = item.thumbnail,
-            contentDescription = item.title,
-            contentScale = ContentScale.Crop,
-            error = {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.LightGray)
-                ) {
 
+        val height = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            100.dp
+        } else {
+            200.dp
+        }
+
+        BoxWithConstraints(modifier = Modifier
+            .fillMaxSize()
+            .weight(2f)
+            .height(height)
+            .padding(15.dp)
+            .background(Color.White)
+            .animateContentSize()
+        ) {
+            CoilImage(
+                modifier = Modifier
+                    .background(Color.White),
+                data = item.thumbnail,
+                contentDescription = item.title,
+                contentScale = ContentScale.Crop,
+                error = {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.LightGray)
+                    ) {
+
+                    }
                 }
-            }
-        )
+            )
+        }
 
         Column(
             modifier = Modifier
