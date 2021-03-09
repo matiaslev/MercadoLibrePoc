@@ -2,6 +2,11 @@ package com.matiaslev.mercadolibrepoc.screens
 
 import android.widget.RatingBar
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,10 +14,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -31,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -105,7 +115,11 @@ fun HomeContent(navController: NavController, model: MainViewModel) {
 
     when (data) {
         ItemsRepository.ApiResponse.Loading -> {
-            LoadingView()
+            Column {
+                repeat(5) {
+                    LoadingView()
+                }
+            }
         }
 
         is ItemsRepository.ApiResponse.Success -> {
@@ -128,21 +142,62 @@ fun HomeContent(navController: NavController, model: MainViewModel) {
 
 @Composable
 fun LoadingView() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        LinearProgressIndicator(
-            modifier = Modifier
-                .testTag("loading")
-                .fillMaxWidth()
-                .padding(20.dp),
-            backgroundColor = Color.LightGray
+    // Creates an `InfiniteTransition` that runs infinite child animation values.
+    val infiniteTransition = rememberInfiniteTransition()
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        // `infiniteRepeatable` repeats the specified duration-based `AnimationSpec` infinitely.
+        animationSpec = infiniteRepeatable(
+            // The `keyframes` animates the value by specifying multiple timestamps.
+            animation = keyframes {
+                // One iteration is 1000 milliseconds.
+                durationMillis = 1000
+                // 0.7f at the middle of an iteration.
+                0.7f at 500
+            },
+            // When the value finishes animating from 0f to 1f, it repeats by reversing the
+            // animation direction.
+            repeatMode = RepeatMode.Reverse
         )
+    )
+    Row(
+        modifier = Modifier
+            .heightIn(min = 64.dp)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .clip(RectangleShape)
+                .background(Color.LightGray.copy(alpha = alpha))
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .background(Color.LightGray.copy(alpha = alpha))
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .background(Color.LightGray.copy(alpha = alpha))
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .background(Color.LightGray.copy(alpha = alpha))
+            )
+        }
     }
 }
 
@@ -196,9 +251,10 @@ fun CardItem(navController: NavController, item: CardItem) {
             contentDescription = item.title,
             contentScale = ContentScale.Crop,
             error = {
-                Box(Modifier
-                    .fillMaxSize()
-                    .background(Color.LightGray)
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.LightGray)
                 ) {
 
                 }
