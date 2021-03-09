@@ -245,7 +245,7 @@ fun CardItem(navController: NavController, item: CardItem) {
         modifier = Modifier
             .testTag("CardItem")
             .background(Color.White)
-            .clickable { navController.navigate("details") }
+            .clickable { navController.navigate("details/${item.link}") }
     ) {
 
         val height = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {

@@ -21,7 +21,8 @@ class ItemsRepository @Inject constructor(
             CardItem(
                 title = it.title,
                 thumbnail = it.thumbnail.replace("http://", "https://"),
-                price = it.price
+                price = it.price,
+                link = it.link
             )
         }
 

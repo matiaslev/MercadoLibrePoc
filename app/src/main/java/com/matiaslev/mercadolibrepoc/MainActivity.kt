@@ -51,8 +51,10 @@ class MainActivity : AppCompatActivity() {
             composable("search") {
                 Search(navController, model)
             }
-            composable("details") {
-                Details("https://articulo.mercadolibre.com.ar/MLA-903179538-apple-macbook-pro-133-2020-touch-bar-intel-core-i5-512gb-_JM")
+            composable("details/{link}") { backStackEntry ->
+                backStackEntry.arguments?.getString("link")?.let { link ->
+                    Details(link)
+                }
             }
         }
     }

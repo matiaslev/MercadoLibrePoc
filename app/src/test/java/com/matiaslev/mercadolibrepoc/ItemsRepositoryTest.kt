@@ -39,7 +39,7 @@ class ItemsRepositoryTest : BaseTest() {
         // arrange
         coEvery { itemsService.searchItems(query) } returns ItemsResponse(
             listOf(
-                Item(empty_string, empty_string, empty_string)
+                Item(empty_string, empty_string, empty_string, empty_string)
             )
         )
 
@@ -78,7 +78,8 @@ class ItemsRepositoryTest : BaseTest() {
                 Item(
                     title = empty_string,
                     thumbnail = "http://http2.mlstatic.com/D_998659-MLA32557339242_102019-I.jpg",
-                    price = empty_string
+                    price = empty_string,
+                    link = empty_string
                 )
             )
         )

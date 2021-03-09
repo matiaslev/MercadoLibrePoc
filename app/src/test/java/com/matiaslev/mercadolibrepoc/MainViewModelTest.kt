@@ -31,7 +31,7 @@ class MainViewModelTest : BaseTest() {
             emit(ItemsRepository.ApiResponse.Loading)
             emit(ItemsRepository.ApiResponse.Success(
                 listOf(
-                    CardItem(empty_string, empty_string, empty_string)
+                    CardItem(empty_string, empty_string, empty_string, empty_string)
                 )
             ))
 

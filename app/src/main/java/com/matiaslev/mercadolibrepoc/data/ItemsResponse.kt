@@ -9,5 +9,6 @@ data class ItemsResponse(
 data class Item(
     @SerializedName("title") val title: String,
     @SerializedName("thumbnail") val thumbnail: String,
-    @SerializedName("price") val price: String
+    @SerializedName("price") val price: String,
+    @SerializedName("permalink") val link: String
 )
