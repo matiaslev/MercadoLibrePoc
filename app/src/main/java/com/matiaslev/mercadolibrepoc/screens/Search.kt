@@ -45,19 +45,21 @@ fun SearchTopBar(model: MainViewModel, action: () -> Unit) {
 
     TopAppBar(backgroundColor = Color.White) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 modifier = Modifier
+                    .weight(1f)
                     .clickable { action() },
                 painter = painterResource(id = R.drawable.ic_arrow_back),
                 contentDescription = "back navigation button"
             )
 
             TextField(
-                modifier = Modifier,
+                modifier = Modifier.weight(4f),
                 value = input,
                 label = { Text(text = "Buscar en Mercado Libre") },
                 colors = TextFieldDefaults.textFieldColors(
